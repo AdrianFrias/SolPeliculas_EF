@@ -14,11 +14,6 @@ namespace Datos
         public List<Peliculas> ReadPeliculas()
         {
             List<Peliculas> T_Peliculas = new List<Peliculas>();
-
-            //Para treaer toda la informacion solo de la tabla Peliculas
-            //T_Peliculas = db.Peliculas.ToList();
-
-            //Llamar la tabla pero con el INNER JOIN de generos
             T_Peliculas = db.Peliculas.Include("GenerosPelicula").ToList();
             return T_Peliculas;
         }
@@ -29,15 +24,29 @@ namespace Datos
         }
         public void CreatePelicula(Peliculas pelicula)
         {
-            db.Peliculas.Add(pelicula);
-            db.SaveChanges();
-            db.Dispose();
+            try
+            {
+                db.Peliculas.Add(pelicula);
+                db.SaveChanges();
+                db.Dispose();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
         public void UpdatePelicula(Peliculas pelicula)
         {
-            db.Peliculas.AddOrUpdate(pelicula);
-            db.SaveChanges();
-            db.Dispose();
+            try
+            {
+                db.Peliculas.AddOrUpdate(pelicula);
+                db.SaveChanges();
+                db.Dispose();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
         public void DeletePelicula(int id)
         {
@@ -45,6 +54,17 @@ namespace Datos
             db.Peliculas.Remove(pelicula);
             db.SaveChanges();
             db.Dispose();
+        }
+        public List<Peliculas> ReadBuscador(int idgenero)
+        {
+            List<Peliculas> T_Peliculas = new List<Peliculas>();
+            T_Peliculas = db.Peliculas.Include("GenerosPelicula").Where(x => x.idGeneroPelicula == idgenero).ToList();
+            return T_Peliculas;
+        }
+        public bool ValidarPelicula(string nombrepel)
+        {
+            bool flag = db.Peliculas.Any(x => x.nombre == nombrepel);
+            return flag;
         }
     }
 }

@@ -1,0 +1,55 @@
+﻿@using Datos.Model
+@model Peliculas
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>EditarPelicula</title>
+    <link href="~/Content/bootstrap.css" rel="stylesheet" />
+    <script src="~/Scripts/bootstrap.js"></script>
+</head>
+<body>
+    <div class="container">
+        <h1>Editar Pelicula</h1>
+        @if (TempData["ERROR"] != null)
+        {
+            <div class="alert alert-danger">
+                <b>Ocurrio un error: </b>@(TempData["ERROR"])
+            </div>
+        }
+    <form action="/Home/EditarPelicula" method="post" enctype="multipart/form-data">
+        <input type="hidden" name="IDPelicula" value="@Model.idPelicula" />
+        <label>Nombre</label>
+        @Html.TextBox("Nombre", Model.nombre, new { @class = "form-control", required = "required" })
+        <br />
+        <label>Genero</label>
+        @Html.DropDownList("IDGeneroPelicula", new SelectList(ViewBag.CatalogoGeneros, "IDGeneroPelicula", "Genero", Model.idGeneroPelicula),
+        "Selecciona un valor", new { @class = "form-control" })
+        <br />
+        <label>Fecha de lanzamiento</label>
+        @Html.TextBox("FechaLanzamiento", Model.fechalanzamiento?.ToString("yyyy-MM-ddTHH:mm"), new { @class = "form-control", required = "required", Type = "datetime-local" })
+
+        <br />
+        @if (!string.IsNullOrEmpty(Model.nombreImagen))
+        {
+            <label>Imagen actual:</label>
+            <br />
+            <img src="~/Imagenes/@Model.nombreImagen" alt="Imagen actual" style="height:250px" />
+        }
+        <br />
+        <label>Seleccionar nueva imagen:</label>
+        <input type="file" name="archivoImagen" id="archivoImagen" class="form-control" />
+        <br />
+
+        <a href="/Home/Index" class="btn btn-secondary">Regresar</a>
+        <input type="submit" value="Actualizar" class="btn btn-success" />
+    </form>
+    </div>
+</body>
+</html>

@@ -1,0 +1,43 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>AgregarPelicula</title>
+    <link href="~/Content/bootstrap.css" rel="stylesheet" />
+    <script src="~/Scripts/bootstrap.js"></script>
+
+</head>
+<body>
+    <div class="container">
+        <h1>Agregar Pelicula</h1>
+        @if (TempData["ERROR"] != null)
+        {
+            <div class="alert alert-danger">
+                <b>Ocurrio un error: </b>@(TempData["ERROR"])
+            </div>
+        }
+        <form action="/Home/AgregarPelicula" method="post" enctype="multipart/form-data">
+            <label>Nombre</label>
+            @Html.TextBox("Nombre", null, new { @class = "form-control", required = "required" })
+            <br />
+            <label>Genero</label>
+            @Html.DropDownList("IDGeneroPelicula", new SelectList(ViewBag.CatalogoGeneros, "IDGeneroPelicula", "Genero"),
+                "Seleccione un genero", new { @class = "form-control" })
+
+            <label>Fecha de lanzamiento</label>
+            @Html.TextBox("FechaLanzamiento", null, new { @class = "form-control", required = "required", Type = "datetime-local" })
+            <br />
+            <label>Imagen</label>
+            <input type="file" name="archivoImagen" id="archivoImagen" class="form-control" required />
+            <br />
+            <a href="/Home/Index" class="btn btn-secondary">Regresar</a>
+            <input type="submit" value="Agregar" class="btn btn-success" />
+        </form>
+    </div>
+</body>
+</html>

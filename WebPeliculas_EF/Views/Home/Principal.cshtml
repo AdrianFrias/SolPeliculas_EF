@@ -1,5 +1,5 @@
 ﻿
-@using Datos.Model;
+@using Datos.Model
 @model List<Peliculas>
 @{
     Layout = null;
@@ -15,7 +15,25 @@
     <script src="~/Scripts/bootstrap.js"></script>
 </head>
 <body>
-    <div>
+    <div class="container">
+        <h1>Cartelera</h1>
+        @if (TempData["mensaje"] != null)
+        {
+            <div class="alert alert-success"><b>@TempData["mensaje"]</b></div>
+        }
+        @if (TempData["ERROR"] != null)
+        {
+            <div class="alert alert-danger"><b>@TempData["ERROR"]</b></div>
+        }
+        <a href="/Home/VistaAgregar" class="btn btn-success">Agregar</a>
+        <a href="/Home/VistaGeneros" class="btn btn-dark">Generos</a>
+
+        <form method="get" action="/Home/Buscar">
+            @Html.DropDownList("Buscador", new SelectList(ViewBag.CatalogoGeneros, "IDGeneroPelicula", "Genero"),
+            "Todos los generos", new { @class = "form-control" })
+            <input type="submit" value="Buscar" class="btn btn-warning">
+        </form>
+
         <div class="row">
             @foreach (Peliculas pelicula in Model)
             {
@@ -24,7 +42,7 @@
                         <img src="~/Imagenes/@pelicula.nombreImagen" class="card-img-top" style="height:350px" />
                         <div class="card-body">
                             <h5 class="card-title">@pelicula.nombre</h5>
-                            <p>@pelicula.GenerosPelicula</p>
+                            <p>@pelicula.GenerosPelicula.genero</p>
                             <p><b>Fecha de lanzamiento</b>@pelicula.fechalanzamiento</p>
 
                             <a href="/Home/VistaEditar/?ID=@pelicula.idPelicula" class="btn btn-primary">Editar</a>
