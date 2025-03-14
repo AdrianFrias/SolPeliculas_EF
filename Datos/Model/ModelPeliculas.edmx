@@ -1,0 +1,137 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="generacion31Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="GenerosPelicula">
+          <Key>
+            <PropertyRef Name="idGeneroPelicula" />
+          </Key>
+          <Property Name="idGeneroPelicula" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="genero" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Peliculas">
+          <Key>
+            <PropertyRef Name="idPelicula" />
+          </Key>
+          <Property Name="idPelicula" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="nombre" Type="varchar" MaxLength="50" />
+          <Property Name="idGeneroPelicula" Type="int" />
+          <Property Name="fechalanzamiento" Type="datetime" />
+          <Property Name="nombreImagen" Type="varchar(max)" />
+        </EntityType>
+        <Association Name="FK_Peliculas_GenerosPelicula">
+          <End Role="GenerosPelicula" Type="Self.GenerosPelicula" Multiplicity="0..1" />
+          <End Role="Peliculas" Type="Self.Peliculas" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GenerosPelicula">
+              <PropertyRef Name="idGeneroPelicula" />
+            </Principal>
+            <Dependent Role="Peliculas">
+              <PropertyRef Name="idGeneroPelicula" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="generacion31ModelStoreContainer">
+          <EntitySet Name="GenerosPelicula" EntityType="Self.GenerosPelicula" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Peliculas" EntityType="Self.Peliculas" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Peliculas_GenerosPelicula" Association="Self.FK_Peliculas_GenerosPelicula">
+            <End Role="GenerosPelicula" EntitySet="GenerosPelicula" />
+            <End Role="Peliculas" EntitySet="Peliculas" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="generacion31Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="GenerosPelicula">
+          <Key>
+            <PropertyRef Name="idGeneroPelicula" />
+          </Key>
+          <Property Name="idGeneroPelicula" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="genero" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Peliculas" Relationship="Self.FK_Peliculas_GenerosPelicula" FromRole="GenerosPelicula" ToRole="Peliculas" />
+        </EntityType>
+        <EntityType Name="Peliculas">
+          <Key>
+            <PropertyRef Name="idPelicula" />
+          </Key>
+          <Property Name="idPelicula" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="idGeneroPelicula" Type="Int32" />
+          <Property Name="fechalanzamiento" Type="DateTime" Precision="3" />
+          <Property Name="nombreImagen" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="GenerosPelicula" Relationship="Self.FK_Peliculas_GenerosPelicula" FromRole="Peliculas" ToRole="GenerosPelicula" />
+        </EntityType>
+        <Association Name="FK_Peliculas_GenerosPelicula">
+          <End Role="GenerosPelicula" Type="Self.GenerosPelicula" Multiplicity="0..1" />
+          <End Role="Peliculas" Type="Self.Peliculas" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GenerosPelicula">
+              <PropertyRef Name="idGeneroPelicula" />
+            </Principal>
+            <Dependent Role="Peliculas">
+              <PropertyRef Name="idGeneroPelicula" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="generacion31Entities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="GenerosPelicula" EntityType="Self.GenerosPelicula" />
+          <EntitySet Name="Peliculas" EntityType="Self.Peliculas" />
+          <AssociationSet Name="FK_Peliculas_GenerosPelicula" Association="Self.FK_Peliculas_GenerosPelicula">
+            <End Role="GenerosPelicula" EntitySet="GenerosPelicula" />
+            <End Role="Peliculas" EntitySet="Peliculas" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="generacion31ModelStoreContainer" CdmEntityContainer="generacion31Entities">
+          <EntitySetMapping Name="GenerosPelicula">
+            <EntityTypeMapping TypeName="generacion31Model.GenerosPelicula">
+              <MappingFragment StoreEntitySet="GenerosPelicula">
+                <ScalarProperty Name="idGeneroPelicula" ColumnName="idGeneroPelicula" />
+                <ScalarProperty Name="genero" ColumnName="genero" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Peliculas">
+            <EntityTypeMapping TypeName="generacion31Model.Peliculas">
+              <MappingFragment StoreEntitySet="Peliculas">
+                <ScalarProperty Name="idPelicula" ColumnName="idPelicula" />
+                <ScalarProperty Name="nombre" ColumnName="nombre" />
+                <ScalarProperty Name="idGeneroPelicula" ColumnName="idGeneroPelicula" />
+                <ScalarProperty Name="fechalanzamiento" ColumnName="fechalanzamiento" />
+                <ScalarProperty Name="nombreImagen" ColumnName="nombreImagen" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Ninguno" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

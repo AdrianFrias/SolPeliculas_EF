@@ -1,0 +1,39 @@
+﻿
+@using Datos.Model;
+@model List<Peliculas>
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Principal</title>
+    <link href="~/Content/bootstrap.css" rel="stylesheet" />
+    <script src="~/Scripts/bootstrap.js"></script>
+</head>
+<body>
+    <div>
+        <div class="row">
+            @foreach (Peliculas pelicula in Model)
+            {
+                <div class="col-3 mb-3">
+                    <div class="card">
+                        <img src="~/Imagenes/@pelicula.nombreImagen" class="card-img-top" style="height:350px" />
+                        <div class="card-body">
+                            <h5 class="card-title">@pelicula.nombre</h5>
+                            <p>@pelicula.GenerosPelicula</p>
+                            <p><b>Fecha de lanzamiento</b>@pelicula.fechalanzamiento</p>
+
+                            <a href="/Home/VistaEditar/?ID=@pelicula.idPelicula" class="btn btn-primary">Editar</a>
+                            <a href="/Home/VistaEliminar/?ID=@pelicula.idPelicula" class="btn btn-danger">Eliminar</a>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</body>
+</html>
