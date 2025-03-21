@@ -1,5 +1,5 @@
 ﻿
-@using Datos.Model
+@using Datos.Model;
 @model List<Peliculas>
 @{
     Layout = null;
@@ -33,7 +33,10 @@
             "Todos los generos", new { @class = "form-control" })
             <input type="submit" value="Buscar" class="btn btn-warning">
         </form>
-
+        <form method="get" action="/Home/BuscarNombre">
+            <input class="form-control" name="Buscador" placeholder="Nombre pelicula" />
+            <input type="submit" value="Buscar" class="btn btn-dark">
+        </form>
         <div class="row">
             @foreach (Peliculas pelicula in Model)
             {

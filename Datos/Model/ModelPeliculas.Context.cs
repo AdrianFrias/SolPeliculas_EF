@@ -12,6 +12,8 @@ namespace Datos.Model
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
+    using System.Data.Entity.Core.Objects;
+    using System.Linq;
     
     public partial class generacion31Entities : DbContext
     {
@@ -27,5 +29,44 @@ namespace Datos.Model
     
         public virtual DbSet<GenerosPelicula> GenerosPelicula { get; set; }
         public virtual DbSet<Peliculas> Peliculas { get; set; }
+    
+        public virtual int spEditarProductos(Nullable<int> id, string descripcion, Nullable<decimal> precio, Nullable<System.DateTime> fechaingreso, Nullable<bool> disponible)
+        {
+            var idParameter = id.HasValue ?
+                new ObjectParameter("id", id) :
+                new ObjectParameter("id", typeof(int));
+    
+            var descripcionParameter = descripcion != null ?
+                new ObjectParameter("descripcion", descripcion) :
+                new ObjectParameter("descripcion", typeof(string));
+    
+            var precioParameter = precio.HasValue ?
+                new ObjectParameter("precio", precio) :
+                new ObjectParameter("precio", typeof(decimal));
+    
+            var fechaingresoParameter = fechaingreso.HasValue ?
+                new ObjectParameter("fechaingreso", fechaingreso) :
+                new ObjectParameter("fechaingreso", typeof(System.DateTime));
+    
+            var disponibleParameter = disponible.HasValue ?
+                new ObjectParameter("disponible", disponible) :
+                new ObjectParameter("disponible", typeof(bool));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("spEditarProductos", idParameter, descripcionParameter, precioParameter, fechaingresoParameter, disponibleParameter);
+        }
+    
+        public virtual int spEliminarPelicula(Nullable<int> sp_id)
+        {
+            var sp_idParameter = sp_id.HasValue ?
+                new ObjectParameter("sp_id", sp_id) :
+                new ObjectParameter("sp_id", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("spEliminarPelicula", sp_idParameter);
+        }
+    
+        public virtual ObjectResult<spObtenerTodosPeliculas_Result> spObtenerTodosPeliculas()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spObtenerTodosPeliculas_Result>("spObtenerTodosPeliculas");
+        }
     }
 }

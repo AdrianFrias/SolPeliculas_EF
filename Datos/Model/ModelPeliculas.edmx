@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="generacion31Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="generacion31Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="GenerosPelicula">
           <Key>
             <PropertyRef Name="idGeneroPelicula" />
@@ -34,6 +34,17 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Function Name="spEditarProductos" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="id" Type="int" Mode="In" />
+          <Parameter Name="descripcion" Type="varchar" Mode="In" />
+          <Parameter Name="precio" Type="decimal" Mode="In" />
+          <Parameter Name="fechaingreso" Type="date" Mode="In" />
+          <Parameter Name="disponible" Type="bit" Mode="In" />
+        </Function>
+        <Function Name="spEliminarPelicula" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="sp_id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="spObtenerTodosPeliculas" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <EntityContainer Name="generacion31ModelStoreContainer">
           <EntitySet Name="GenerosPelicula" EntityType="Self.GenerosPelicula" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Peliculas" EntityType="Self.Peliculas" Schema="dbo" store:Type="Tables" />
@@ -42,8 +53,7 @@
             <End Role="Peliculas" EntitySet="Peliculas" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="generacion31Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -85,7 +95,26 @@
             <End Role="GenerosPelicula" EntitySet="GenerosPelicula" />
             <End Role="Peliculas" EntitySet="Peliculas" />
           </AssociationSet>
+          <FunctionImport Name="spEditarProductos">
+            <Parameter Name="id" Mode="In" Type="Int32" />
+            <Parameter Name="descripcion" Mode="In" Type="String" />
+            <Parameter Name="precio" Mode="In" Type="Decimal" />
+            <Parameter Name="fechaingreso" Mode="In" Type="DateTime" />
+            <Parameter Name="disponible" Mode="In" Type="Boolean" />
+          </FunctionImport>
+          <FunctionImport Name="spEliminarPelicula">
+          <Parameter Name="sp_id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="spObtenerTodosPeliculas" ReturnType="Collection(generacion31Model.spObtenerTodosPeliculas_Result)" />
         </EntityContainer>
+        <ComplexType Name="spObtenerTodosPeliculas_Result">
+          <Property Type="Int32" Name="idPelicula" Nullable="false" />
+          <Property Type="String" Name="nombre" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="idGeneroPelicula" Nullable="false" />
+          <Property Type="String" Name="genero" Nullable="false" MaxLength="50" />
+          <Property Type="DateTime" Name="fechalanzamiento" Nullable="true" Precision="23" />
+          <Property Type="String" Name="nombreImagen" Nullable="true" />
+        </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -111,6 +140,20 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="spEditarProductos" FunctionName="generacion31Model.Store.spEditarProductos" />
+          <FunctionImportMapping FunctionImportName="spEliminarPelicula" FunctionName="generacion31Model.Store.spEliminarPelicula" />
+          <FunctionImportMapping FunctionImportName="spObtenerTodosPeliculas" FunctionName="generacion31Model.Store.spObtenerTodosPeliculas">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="generacion31Model.spObtenerTodosPeliculas_Result">
+                <ScalarProperty Name="idPelicula" ColumnName="idPelicula" />
+                <ScalarProperty Name="nombre" ColumnName="nombre" />
+                <ScalarProperty Name="idGeneroPelicula" ColumnName="idGeneroPelicula" />
+                <ScalarProperty Name="genero" ColumnName="genero" />
+                <ScalarProperty Name="fechalanzamiento" ColumnName="fechalanzamiento" />
+                <ScalarProperty Name="nombreImagen" ColumnName="nombreImagen" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

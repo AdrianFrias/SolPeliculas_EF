@@ -74,6 +74,9 @@
     <Compile Include="Model\Peliculas.cs">
       <DependentUpon>ModelPeliculas.tt</DependentUpon>
     </Compile>
+    <Compile Include="Model\spObtenerTodosPeliculas_Result.cs">
+      <DependentUpon>ModelPeliculas.tt</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

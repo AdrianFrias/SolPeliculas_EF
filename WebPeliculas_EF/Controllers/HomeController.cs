@@ -64,7 +64,7 @@ namespace WebPeliculas_EF.Controllers
                 N_Genero negocioGenero = new N_Genero();
                 List<GenerosPelicula> generos = negocioGenero.ObtenerGeneros();
                 ViewBag.CatalogoGeneros = generos;
-                return View("AgregarPelicula");
+                return RedirectToAction("VistaAgregar");
             }
         }
         public ActionResult VistaEditar(int ID)
@@ -219,7 +219,7 @@ namespace WebPeliculas_EF.Controllers
                 negocio.EliminarGenero(entidadgenero);
                 TempData["mensaje"] = $"El genero {entidadgenero.genero} se elimino correctamente";
             }
-            catch (Exception ex)
+            catch
             {
                 TempData["ERROR"] = $"Error: No puede eliminarse, ese genero esta asociado a peliculas";
                 return View("EliminarGenero", entidadgenero);
@@ -240,6 +240,23 @@ namespace WebPeliculas_EF.Controllers
             }
 
 
+            N_Genero negocioGenero = new N_Genero();
+            List<GenerosPelicula> generos = negocioGenero.ObtenerGeneros();
+            ViewBag.CatalogoGeneros = generos;
+            return View("Principal", lista);
+        }
+        public ActionResult BuscarNombre(string Buscador)
+        {
+            List<Peliculas> lista = new List<Peliculas>();
+            N_Pelicula negocio = new N_Pelicula();
+            if (string.IsNullOrEmpty(Buscador))
+            {
+                lista = negocio.ObtnerPeliculas();
+            }
+            else
+            {
+                lista = negocio.BuscadorNombre(Buscador);
+            }
             N_Genero negocioGenero = new N_Genero();
             List<GenerosPelicula> generos = negocioGenero.ObtenerGeneros();
             ViewBag.CatalogoGeneros = generos;

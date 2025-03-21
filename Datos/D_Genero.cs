@@ -60,5 +60,6 @@ namespace Datos
             bool flag = db.GenerosPelicula.Any(x => x.genero == nombregen);
             return flag;
         }
+        
     }
 }
